@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.HttpOverrides;
 using webapi.Extensions;
 using webapi.Mapper;
 using webapi.Middlwares;
@@ -26,7 +27,11 @@ if (app.Environment.IsDevelopment())
 }
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 
-app.UseHttpsRedirection();
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
+
 app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
