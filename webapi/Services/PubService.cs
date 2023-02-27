@@ -13,7 +13,6 @@ namespace webapi.Services
             var pubSubSection = configuration.GetSection("PubSub");
             var projectId = pubSubSection.GetSection("ProjectId").Value;
             var topicId = pubSubSection.GetSection("TopicId").Value;
-            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "C:\\Users\\scota\\Downloads\\rsiot-377921-f989fb108597.json");
             _topic = new TopicName(projectId, topicId);
         }
         public async Task Publish(string data)
