@@ -10,10 +10,13 @@ namespace webapi.Controllers
     {
         private readonly IAppointmentService _appointmentService;
         private readonly ILogger _logger;
-        public AppointmentsController(IAppointmentService appointmentService, ILogger<AppointmentsController> logger)
+        private readonly IPubService _pubService;
+        public AppointmentsController(IAppointmentService appointmentService, ILogger<AppointmentsController> logger,
+            IPubService pubService)
         {
             _appointmentService = appointmentService;
             _logger = logger;
+            _pubService = pubService;
         }
 
         [HttpGet]
@@ -39,6 +42,9 @@ namespace webapi.Controllers
         {
             var appointment = await _appointmentService.CreateAppointmentAsync(appointmentDto);
             _logger.LogInformation("appointment was created");
+
+            await _pubService.Publish("test message from webapi");
+            _logger.LogInformation("message was send to topic");
 
             return CreatedAtRoute("GetAppointment", new { id = appointment.Id }, appointment);
         }

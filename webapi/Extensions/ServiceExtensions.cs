@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using webapi.BackgroundServices;
 using webapi.Contracts.Repositories;
 using webapi.Contracts.Services;
 using webapi.Persistence;
@@ -15,6 +16,10 @@ namespace webapi.Extensions
             services.AddScoped<IAppointmentService, AppointmentService>();
             services.AddScoped<IDoctorService, DoctorService>();
             services.AddScoped<IPatientService, PatientService>();
+            services.AddTransient<ISubService, SubService>();
+            services.AddTransient<IPubService, PubService>();
+
+            services.AddHostedService<SubscriberBackgroundService>();
         }
 
         public static void ConfigurePostgresConnection(this IServiceCollection services, IConfiguration configuration)
