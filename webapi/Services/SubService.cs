@@ -12,10 +12,11 @@ namespace webapi.Services
             var pubSubSection = configuration.GetSection("PubSub");
             var projectId = pubSubSection.GetSection("ProjectId").Value;
             var subscriptionId = pubSubSection.GetSection("SubscriptionId").Value;
+            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "C:\\Users\\scota\\Downloads\\prime-well-379208-552681bf7438.json");
             _subscription = new SubscriptionName(projectId, subscriptionId);
         }
 
-        public async Task Receive()
+        public async Task<string> Receive()
         {
             _subscriber = SubscriberClient.Create(_subscription);
             var receivedMessages = new List<PubsubMessage>();
@@ -27,6 +28,7 @@ namespace webapi.Services
                 _subscriber.StopAsync(TimeSpan.FromSeconds(15));
                 return Task.FromResult(SubscriberClient.Reply.Ack);
             });
+            return receivedMessages.Single().Data.ToStringUtf8();
         }
     }
 }

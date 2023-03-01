@@ -11,12 +11,14 @@ namespace webapi.Controllers
         private readonly IAppointmentService _appointmentService;
         private readonly ILogger _logger;
         private readonly IPubService _pubService;
+        private readonly ISubService _subService;
         public AppointmentsController(IAppointmentService appointmentService, ILogger<AppointmentsController> logger,
-            IPubService pubService)
+            IPubService pubService, ISubService subService)
         {
             _appointmentService = appointmentService;
             _logger = logger;
             _pubService = pubService;
+            _subService = subService;
         }
 
         [HttpGet]
@@ -40,11 +42,16 @@ namespace webapi.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAppointment([FromBody] AppointmentForManipulationDto appointmentDto)
         {
-            var appointment = await _appointmentService.CreateAppointmentAsync(appointmentDto);
-            _logger.LogInformation("appointment was created");
-
             await _pubService.Publish("test message from webapi");
             _logger.LogInformation("message was send to topic");
+
+            var message = await _subService.Receive();
+
+            if(message == "false")
+                return BadRequest(message);
+
+            var appointment = await _appointmentService.CreateAppointmentAsync(appointmentDto);
+            _logger.LogInformation("appointment was created");
 
             return CreatedAtRoute("GetAppointment", new { id = appointment.Id }, appointment);
         }

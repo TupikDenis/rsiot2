@@ -2,6 +2,6 @@
 {
     public interface ISubService
     {
-        Task Receive();
+        Task<string> Receive();
     }
 }
