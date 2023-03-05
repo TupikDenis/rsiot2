@@ -22,54 +22,31 @@ namespace webapi.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("webapi.Models.Appointment", b =>
+            modelBuilder.Entity("webapi.Models.Mark", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("AppointmentDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("DoctorId")
+                    b.Property<Guid>("Mark")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("PatiendId")
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("SubjectId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DoctorId");
+                    b.HasIndex("UserId");
 
-                    b.HasIndex("PatiendId");
+                    b.HasIndex("SubjectId");
 
-                    b.ToTable("Appointments");
+                    b.ToTable("Marks");
                 });
 
-            modelBuilder.Entity("webapi.Models.Doctor", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Position")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Surname")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Doctors");
-                });
-
-            modelBuilder.Entity("webapi.Models.Patient", b =>
+            modelBuilder.Entity("webapi.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -79,42 +56,53 @@ namespace webapi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Surname")
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("webapi.Models.Subject", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Patients");
+                    b.ToTable("Subjects");
                 });
 
-            modelBuilder.Entity("webapi.Models.Appointment", b =>
+            modelBuilder.Entity("webapi.Models.Mark", b =>
                 {
-                    b.HasOne("webapi.Models.Doctor", "Doctor")
-                        .WithMany("Appointments")
-                        .HasForeignKey("DoctorId")
+                    b.HasOne("webapi.Models.User", "User")
+                        .WithMany("Marks")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("webapi.Models.Patient", "Patient")
-                        .WithMany("Appointments")
-                        .HasForeignKey("PatiendId")
+                    b.HasOne("webapi.Models.Subject", "Subject")
+                        .WithMany("Marks")
+                        .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Doctor");
+                    b.Navigation("User");
 
-                    b.Navigation("Patient");
+                    b.Navigation("Subject");
                 });
 
-            modelBuilder.Entity("webapi.Models.Doctor", b =>
+            modelBuilder.Entity("webapi.Models.User", b =>
                 {
-                    b.Navigation("Appointments");
+                    b.Navigation("Marks");
                 });
 
-            modelBuilder.Entity("webapi.Models.Patient", b =>
+            modelBuilder.Entity("webapi.Models.Subject", b =>
                 {
-                    b.Navigation("Appointments");
+                    b.Navigation("Marks");
                 });
 #pragma warning restore 612, 618
         }

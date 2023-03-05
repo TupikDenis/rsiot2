@@ -12,9 +12,9 @@ namespace webapi.Extensions
         public static void ConfigureServices(this IServiceCollection services)
         {
             services.AddScoped<IRepositoryManager, RepositoryManager>();
-            services.AddScoped<IAppointmentService, AppointmentService>();
-            services.AddScoped<IDoctorService, DoctorService>();
-            services.AddScoped<IPatientService, PatientService>();
+            services.AddScoped<IMarkService, MarkService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ISubjectService, SubjectService>();
             services.AddTransient<ISubService, SubService>();
             services.AddTransient<IPubService, PubService>();
         }

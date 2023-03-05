@@ -5,9 +5,9 @@ namespace webapi.Persistence
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<Patient> Patients { get; set; }
-        public DbSet<Doctor> Doctors { get; set; }
-        public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Mark> Marks { get; set; }
 
         public AppDbContext(DbContextOptions options) : base(options)
         {
@@ -17,19 +17,19 @@ namespace webapi.Persistence
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Patient>()
-                .HasMany(p => p.Appointments)
-                .WithOne(p => p.Patient)
-                .HasForeignKey(a => a.PatiendId)
+            builder.Entity<Subject>()
+                .HasMany(p => p.Marks)
+                .WithOne(p => p.Subject)
+                .HasForeignKey(a => a.SubjectId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<Doctor>()
-                .HasMany(d => d.Appointments)
-                .WithOne(a => a.Doctor)
-                .HasForeignKey(a => a.DoctorId)
+            builder.Entity<User>()
+                .HasMany(d => d.Marks)
+                .WithOne(a => a.User)
+                .HasForeignKey(a => a.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<Appointment>()
+            builder.Entity<Mark>()
                 .HasKey(a => a.Id);
         }
     }

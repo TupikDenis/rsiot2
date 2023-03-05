@@ -1,8 +1,7 @@
 ﻿namespace webapi.DataTransferObjects
 {
-    public class PatientForManipulationDto
+    public class SubjectForManipulationDto
     {
         public string Name { get; set; }
-        public string Surname { get; set; }
     }
 }

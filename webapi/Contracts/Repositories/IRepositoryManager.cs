@@ -2,9 +2,9 @@
 {
     public interface IRepositoryManager
     {
-        IDoctorRepository DoctorRepository { get; }
-        IPatienRepository PatienRepository { get; }
-        IAppointmentRepository AppointmentRepository { get; }
+        IUserRepository UserRepository { get; }
+        ISubjectRepository SubjectRepository { get; }
+        IMarkRepository MarkRepository { get; }
         Task SaveChangesAsync();
     }
 }
