@@ -12,7 +12,7 @@ using webapi.Persistence;
 namespace webapi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230305114633_initial")]
+    [Migration("20230305132512_initial")]
     partial class initial
     {
         /// <inheritdoc />

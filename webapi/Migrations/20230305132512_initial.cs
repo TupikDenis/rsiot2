@@ -10,19 +10,13 @@ namespace webapi.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "Mark",
-                table: "Marks",
-                newName: "AppointmentDate");
+
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "AppointmentDate",
-                table: "Marks",
-                newName: "Mark");
+
         }
     }
 }
